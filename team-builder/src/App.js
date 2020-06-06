@@ -7,6 +7,7 @@ import MemberList from "./components/MemberList"
 function App() {
 
 const [memberList, setMemberList] = useState([{name: 'Jose', email: 'josergz@gmail.com', role: 'CEO'}])
+const [editing, setEditing] = useState(null)
 
 const addMember = (member) => {
   setMemberList([
@@ -14,10 +15,18 @@ const addMember = (member) => {
     member
   ])
 }
+
+const editMember = (id, member) => {
+  let actualList = [...memberList]
+  actualList[id] = member
+  setMemberList(actualList)
+  setEditing(null)
+}
+
   return (
     <div className="App">
-      <Form addMember={addMember}/>
-      <MemberList memberList={memberList} />
+      <Form addMember={addMember} editMember={editMember} editing={editing} editMember={editMember}/>
+      <MemberList memberList={memberList} setEditing={setEditing}/>
     </div>
   );
 }

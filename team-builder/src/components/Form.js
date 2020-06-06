@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 
 const FormComponent = styled.form`
@@ -19,7 +19,9 @@ const Button = styled.button`
 
 function Form(props) {
 
-    const [member, setMember] = useState({name: '', email: '', role: ''})
+    const [member, setMember] = useState({name: '', email: '', role: ''});
+
+ 
 
     const handleEventOnChange = (event) => {
         setMember({
@@ -31,10 +33,20 @@ function Form(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.addMember(member)
+        if (props.editing === null) { 
+            props.addMember(member) 
+        } else { 
+            props.editMember(props.editing[0], member) 
+        }
         setMember({name: '', email: '', role: ''})
         
     }
+
+    useEffect(() =>{
+        if (props.editing !== null) {
+            setMember(props.editing[1])
+        }
+    },[props.editing])
 
   return (
     <FormComponent onSubmit={handleSubmit}>
